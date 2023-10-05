@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.DataShare" parent="android:Theme.Translucent.NoTitleBar">
+    <style name="Theme.DataShare" parent="android:Theme.Translucent.NoTitleBar.Fullscreen">
         <item name="android:windowIsTranslucent">true</item>
     </style>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.datashare
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -33,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -62,10 +64,12 @@ fun BottomSheet(modifier: Modifier = Modifier) {
 
     val sheetState = rememberModalBottomSheetState()
 
+    val activity = (LocalContext.current as? Activity)
+
     ModalBottomSheet(
         modifier = modifier.fillMaxSize(),
         sheetState = sheetState,
-        onDismissRequest = { /*TODO*/ }
+        onDismissRequest = { activity?.finish() }
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
