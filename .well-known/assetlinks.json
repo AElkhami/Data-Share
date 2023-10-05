@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.example.datashare",
+    "sha256_cert_fingerprints":
+    ["A7:6C:69:8D:FB:08:F1:87:7A:63:B0:9B:C5:79:74:85:5E:15:3A:8A:B0:0E:F9:EF:C0:BE:1F:91:8D:59:A1:7D"]
+  }
+}]
