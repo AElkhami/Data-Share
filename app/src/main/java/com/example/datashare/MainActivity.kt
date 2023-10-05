@@ -1,5 +1,6 @@
 package com.example.datashare
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -37,21 +38,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.datashare.ui.theme.DataShareTheme
-import android.content.Intent
-import android.net.Uri
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             DataShareTheme {
-                BottomSheet()
+                Column(modifier = Modifier.fillMaxSize().background(Color.Transparent)) {
+                    val appLinkIntent: Intent = intent
+                    val appLinkAction: String? = appLinkIntent.action
+                    if (Intent.ACTION_VIEW == appLinkAction) {
+                        BottomSheet()
+                    }
+                }
             }
         }
-        // ATTENTION: This was auto-generated to handle app links.
-        val appLinkIntent: Intent = intent
-        val appLinkAction: String? = appLinkIntent.action
-        val appLinkData: Uri? = appLinkIntent.data
     }
 }
 
