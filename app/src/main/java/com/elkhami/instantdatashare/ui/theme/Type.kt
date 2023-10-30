@@ -1,4 +1,4 @@
-package com.example.datashare.ui.theme
+package com.elkhami.instantdatashare.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,4 +1,4 @@
-package com.example.datashare.ui.theme
+package com.elkhami.instantdatashare.ui.theme
 
 import android.app.Activity
 import android.os.Build

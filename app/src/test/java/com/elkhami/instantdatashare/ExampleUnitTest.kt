@@ -1,4 +1,4 @@
-package com.example.datashare
+package com.elkhami.instantdatashare
 
 import org.junit.Test
 

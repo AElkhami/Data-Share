@@ -1,4 +1,4 @@
-package com.example.datashare
+package com.elkhami.instantdatashare
 
 import android.app.Activity
 import android.content.Intent
@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,29 +25,40 @@ import androidx.compose.material.icons.rounded.DateRange
 import androidx.compose.material.icons.rounded.List
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Star
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.datashare.ui.theme.DataShareTheme
+import com.elkhami.instantdatashare.ui.theme.DataShareTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             DataShareTheme {
-                Column(modifier = Modifier.fillMaxSize().background(Color.Transparent)) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Transparent)
+                ) {
                     val appLinkIntent: Intent = intent
                     val appLinkAction: String? = appLinkIntent.action
                     if (Intent.ACTION_VIEW == appLinkAction) {
@@ -66,14 +78,11 @@ fun BottomSheet(modifier: Modifier = Modifier) {
 
     val activity = (LocalContext.current as? Activity)
 
-    ModalBottomSheet(
-        modifier = modifier.fillMaxSize(),
+    ModalBottomSheet(modifier = modifier.fillMaxSize(),
         sheetState = sheetState,
-        onDismissRequest = { activity?.finish() }
-    ) {
+        onDismissRequest = { activity?.finish() }) {
         Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
                 modifier = Modifier
@@ -82,8 +91,8 @@ fun BottomSheet(modifier: Modifier = Modifier) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(text = "Wallet", fontWeight = FontWeight.Bold, fontSize = 21.sp)
-                Image(
-                    Icons.Rounded.Close, contentDescription = null,
+                Image(Icons.Rounded.Close,
+                    contentDescription = null,
                     colorFilter = ColorFilter.tint(
                         Color.Black
                     ),
@@ -92,13 +101,14 @@ fun BottomSheet(modifier: Modifier = Modifier) {
                         .clip(
                             CircleShape,
                         )
-                        .background(color = Color.Gray)
+                        .background(color = Color(0xffdcdcdc))
                         .padding(2.dp)
-                )
+                        .clickable {
+                            activity?.finish()
+                        })
             }
             Image(
-                Icons.Rounded.AccountBox,
-                contentDescription = null
+                Icons.Rounded.AccountBox, contentDescription = null
             )
             Text(text = "Account Info", fontWeight = FontWeight.Bold, fontSize = 18.sp)
             Column(
@@ -120,43 +130,51 @@ fun BottomSheet(modifier: Modifier = Modifier) {
                     modifier = Modifier.padding(top = 10.dp)
                 ) {
                     Column(Modifier.weight(0.5f)) {
-                        Row(Modifier.padding(bottom = 8.dp)) {
-                            Image(Icons.Rounded.Person, contentDescription = null)
-                            Text(text = "Name", modifier = Modifier.padding(start = 8.dp))
-                        }
-                        Row(Modifier.padding(bottom = 8.dp)) {
-                            Image(Icons.Rounded.DateRange, contentDescription = null)
-                            Text(text = "Date of birth", modifier = Modifier.padding(start = 8.dp))
-                        }
-                        Row(Modifier.padding(bottom = 8.dp)) {
-                            Image(Icons.Rounded.Star, contentDescription = null)
-                            Text(text = "Sex", modifier = Modifier.padding(start = 8.dp))
-                        }
-                        Row(Modifier.padding(bottom = 8.dp)) {
-                            Image(Icons.Rounded.List, contentDescription = null)
-                            Text(text = "ID number", modifier = Modifier.padding(start = 8.dp))
-                        }
+
+                        SharedRecord(Icons.Rounded.Person, "Name")
+
+                        SharedRecord(Icons.Rounded.DateRange, "Date of birth")
+
+                        SharedRecord(Icons.Rounded.Star, "Sex")
+
+                        SharedRecord(Icons.Rounded.List, "ID number")
                     }
                     Column(Modifier.weight(0.5f)) {
-                        Row(Modifier.padding(bottom = 8.dp)) {
-                            Image(Icons.Rounded.DateRange, contentDescription = null)
-                            Text(text = "Issue date", modifier = Modifier.padding(start = 8.dp))
-                        }
-                        Row(Modifier.padding(bottom = 8.dp)) {
-                            Image(Icons.Rounded.DateRange, contentDescription = null)
-                            Text(
-                                text = "Expiration date",
-                                modifier = Modifier.padding(start = 8.dp)
-                            )
-                        }
-                        Row(Modifier.padding(bottom = 8.dp)) {
-                            Image(Icons.Rounded.AccountCircle, contentDescription = null)
-                            Text(text = "ID photo", modifier = Modifier.padding(start = 8.dp))
-                        }
+
+                        SharedRecord(Icons.Rounded.DateRange, "Issue date")
+
+                        SharedRecord(Icons.Rounded.DateRange, "Expiration date")
+
+                        SharedRecord(Icons.Rounded.AccountCircle, "ID photo")
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun SharedRecord(icon: ImageVector, title: String) {
+    Row(
+        modifier = Modifier.padding(bottom = 4.dp), verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(icon, contentDescription = null)
+        Text(
+            text = title,
+            fontSize = 12.sp,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
+                .fillMaxWidth(0.7f)
+                .padding(start = 8.dp)
+        )
+        var isChecked by remember {
+            mutableStateOf(false)
+        }
+        Checkbox(modifier = Modifier
+            .size(10.dp)
+            .padding(start = 4.dp),
+            checked = isChecked,
+            onCheckedChange = { isChecked = it })
     }
 }
 
