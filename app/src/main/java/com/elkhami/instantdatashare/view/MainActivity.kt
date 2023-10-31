@@ -1,4 +1,4 @@
-package com.elkhami.instantdatashare
+package com.elkhami.instantdatashare.view
 
 import android.app.Activity
 import android.content.Intent
@@ -47,9 +47,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.elkhami.instantdatashare.ui.theme.DataShareTheme
+import androidx.lifecycle.ViewModelProvider
+import com.elkhami.instantdatashare.view.ui.theme.DataShareTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val viewModel by lazy {
+        ViewModelProvider(this)[MainViewModel::class.java]
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -63,6 +70,7 @@ class MainActivity : ComponentActivity() {
                     val appLinkAction: String? = appLinkIntent.action
                     if (Intent.ACTION_VIEW == appLinkAction) {
                         BottomSheet()
+                        viewModel.insertUser()
                     }
                 }
             }

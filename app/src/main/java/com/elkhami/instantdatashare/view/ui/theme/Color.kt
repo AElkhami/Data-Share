@@ -1,4 +1,4 @@
-package com.elkhami.instantdatashare.ui.theme
+package com.elkhami.instantdatashare.view.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
